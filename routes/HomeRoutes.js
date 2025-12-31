@@ -9,8 +9,6 @@ deletar um pet - id
 const router = require('express').Router();
 
 const HomeController = require('../controllers/HomeController');
-const checkToken = require('../middlewares/verify-token');
-
 // router.get('/all-pets',checkToken, HomeController.getAll)
 // router.post('/create', checkToken, HomeController.createPet)
 // router.get('/:id', checkToken, HomeController.getPetById)

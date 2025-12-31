@@ -1,41 +1,34 @@
 const User = require('../models/User')
 
 const ObjectId = require('mongoose').Types.ObjectId;
-
+const bcrypt = require('bcryptjs')
 module.exports = class RegisterController {
 
-    // static async getAll(req, res) {
-    //     const categories = await Category.find().sort('-createdAt')
-    //     res.status(200).json({ categories })
-    // }
+    static async createAccount(req, res) {
+        const { name, email, password, image, phone } = req.body
 
-    // static async createCategory(req, res) {
+        try {
+            const userExists = await User.findOne({ email })
+            if (userExists) {
+                return res.status(422).json({ message: 'Email já está em uso!' })
+            }
 
-    //     if (!req.body) {
-    //         return res.status(422).json({ message: 'PRecisa enviar as informacoes' })
-    //     }
-    //     const { name, slug } = req.body
+            const hashedPassword = await bcrypt.hash(password, 10)
 
-    //     if (!name) {
-    //         return res.status(422).json({ message: 'O nome é obrigatório!' })
-    //     }
-    //     if (!slug) {
-    //         return res.status(422).json({ message: 'O slug é obrigatório!' })
-    //     }
-    //     const categoryExists = await Category.findOne({ slug })
-    //     if (categoryExists) {
-    //         return res.status(422).json({ message: 'Slug já está em uso!' })
-    //     }
+            const novoUsuario = new User({
+                name,
+                email,
+                password: hashedPassword,
+                image: image || '',
+                phone: phone || ''
+            })
 
-    //     const category = new Category({
-    //         name,
-    //         slug,
-    //     })
-    //     try {
-    //         await category.save()
-    //         res.status(201).json({ message: 'Categoria criada com sucesso!' })
-    //     } catch (error) {
-    //         res.status(500).json({ message: error })
-    //     }
-    // }
+            await novoUsuario.save()
+            return res.status(201).json({ message: 'Usuário inserido com sucesso!' })
+        } catch (err) {
+            console.error('Erro ao inserir usuário:', err)
+            return res.status(500).json({ message: 'Erro no servidor' })
+        }
+    }
+   
 }
