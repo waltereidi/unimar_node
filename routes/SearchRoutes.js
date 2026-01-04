@@ -1,8 +1,8 @@
-const UserController = require('../controllers/SearchController');
+const SearchController = require('../controllers/SearchController');
 
 const router = require('express').Router();
 
-// router.post('/register', UserController.register)
-// router.post('/login', UserController.login)
+// Buscar músicas por nome
+router.get('/music', SearchController.searchMusicByName)
 
 module.exports = router;

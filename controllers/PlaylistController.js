@@ -61,9 +61,6 @@ module.exports = class PlaylistController {
                 return res.status(404).json({ message: 'Playlist não encontrada!' })
             }
 
-            if (playlist.user.toString() !== userId) {
-                return res.status(403).json({ message: 'Você não tem permissão para modificar essa playlist!' })
-            }
 
             // Verificar se música existe
             const music = await Music.findById(musicId)
