@@ -23,6 +23,10 @@ const Playlist = mongoose.model(
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
+        type: {
+            type: Number,
+            default: 0,
+        },
         tracks: [{ type: Schema.Types.ObjectId, ref: 'Music' }],
         isPublic: {
             type: Boolean,

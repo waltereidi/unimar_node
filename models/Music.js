@@ -30,8 +30,7 @@ const Music = mongoose.model(
         },
         artists: [String],
         category: {
-            type: Schema.Types.ObjectId,
-            ref: 'Category',
+            type: String,
         },
         plays: {
             type: Number,
